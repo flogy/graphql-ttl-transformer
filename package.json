@@ -1,7 +1,7 @@
 {
   "name": "graphql-ttl-transformer",
   "version": "0.0.1",
-  "description": "",
+  "description": "A custom transformer of the amplify-cli. It is used to define a time-to-live for DynamoDB table entries.",
   "main": "index.js",
   "author": "Florian Gyger <info@floriangyger.ch>",
   "license": "MIT",
