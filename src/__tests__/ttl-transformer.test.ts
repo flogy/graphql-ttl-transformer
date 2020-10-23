@@ -4,6 +4,8 @@ import TtlTransformer from "../index";
 
 // @ts-ignore
 import { AppSyncTransformer } from "graphql-appsync-transformer";
+import { parse } from "graphql";
+import { ModelResourceIDs } from "graphql-transformer-common";
 
 const transformer = new GraphQLTransform({
   transformers: [
@@ -64,10 +66,50 @@ test("Only one @ttl directive per type is allowed", () => {
   );
 });
 
+const getPropertiesOfSchemaTable = (schema: string, schemaTypeName: string) => {
+  const tableName = ModelResourceIDs.ModelTableResourceID(schemaTypeName);
+  const resources = transformer.transform(schema).stacks[schemaTypeName]
+    .Resources;
+  if (!resources) {
+    throw new Error("Expected to have resources in the stack");
+  }
+  const table = resources[tableName];
+  if (!table) {
+    throw new Error(
+      `Expected to have a table resource called ${tableName} in the stack`
+    );
+  }
+  const properties = table.Properties;
+  if (!properties) {
+    throw new Error(`Expected to have a properties in table ${tableName}`);
+  }
+  return properties;
+};
+
 test("Generated CloudFormation document contains the TimeToLiveSpecification property", () => {
-  throw new Error("Not yet implemented");
+  const schema = `
+    type ExpiringChatMessage @model {
+      id: ID!
+      message: String
+      expirationUnixTime: Int! @ttl
+    }
+  `;
+  const properties = getPropertiesOfSchemaTable(schema, "ExpiringChatMessage");
+  const timeToLiveSpecificationProperty = properties["TimeToLiveSpecification"];
+  expect(timeToLiveSpecificationProperty).toBeDefined();
 });
 
 test("TimeToLiveSpecification property is pointing to the field where the @ttl directive was used", () => {
-  throw new Error("Not yet implemented");
+  const schema = `
+    type ExpiringChatMessage @model {
+      id: ID!
+      message: String
+      expirationUnixTime: Int! @ttl
+    }
+  `;
+  const properties = getPropertiesOfSchemaTable(schema, "ExpiringChatMessage");
+  const timeToLiveSpecificationProperty = properties["TimeToLiveSpecification"];
+  expect(timeToLiveSpecificationProperty.AttributeName).toEqual(
+    "expirationUnixTime"
+  );
 });

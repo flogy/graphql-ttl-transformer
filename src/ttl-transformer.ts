@@ -10,7 +10,7 @@ import {
   InterfaceTypeDefinitionNode,
   FieldDefinitionNode,
 } from "graphql";
-import { getBaseType } from "graphql-transformer-common";
+import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
 
 export class TtlTransformer extends Transformer {
   constructor() {
@@ -49,5 +49,16 @@ export class TtlTransformer extends Transformer {
         'Directive "ttl" must be used only once in the same type.'
       );
     }
+
+    const tableName = ModelResourceIDs.ModelTableResourceID(parent.name.value);
+    const table = acc.getResource(tableName);
+    const fieldName = definition.name.value;
+    table.Properties = {
+      ...table.Properties,
+      TimeToLiveSpecification: {
+        AttributeName: fieldName,
+        Enabled: true,
+      },
+    };
   };
 }
