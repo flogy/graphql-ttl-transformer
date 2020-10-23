@@ -1,4 +1,4 @@
-> Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API!
+> ♻ Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API!
 
 # graphql-ttl-transformer
 

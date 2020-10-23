@@ -1,7 +1,7 @@
 {
   "name": "graphql-ttl-transformer",
   "version": "0.0.1",
-  "description": "A custom transformer of the amplify-cli. It is used to define a time-to-live for DynamoDB table entries.",
+  "description": "Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API!",
   "author": "Florian Gyger <info@floriangyger.ch>",
   "license": "MIT",
   "scripts": {
