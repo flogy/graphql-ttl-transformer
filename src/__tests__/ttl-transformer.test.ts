@@ -1,11 +1,10 @@
 import { GraphQLTransform } from "graphql-transformer-core";
 import { DynamoDBModelTransformer } from "graphql-dynamodb-transformer";
+import { ModelResourceIDs } from "graphql-transformer-common";
 import TtlTransformer from "../index";
 
 // @ts-ignore
 import { AppSyncTransformer } from "graphql-appsync-transformer";
-import { parse } from "graphql";
-import { ModelResourceIDs } from "graphql-transformer-common";
 
 const transformer = new GraphQLTransform({
   transformers: [
