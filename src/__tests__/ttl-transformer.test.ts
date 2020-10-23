@@ -37,20 +37,6 @@ test("@ttl directive can not be used on types", () => {
   );
 });
 
-test("Only one @ttl directive per type is allowed", () => {
-  const schema = `
-    type ExpiringChatMessage @model {
-      id: ID!
-      message: String
-      expirationUnixTime: Int! @ttl
-      anotherExpirationUnixTime: Int! @ttl
-    }
-  `;
-  expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" must be used only once in the same type.'
-  );
-});
-
 test("@ttl directive can only be used on fields of type Int", () => {
   const schema = `
     type ExpiringChatMessage @model {
@@ -61,6 +47,20 @@ test("@ttl directive can only be used on fields of type Int", () => {
   `;
   expect(() => transformer.transform(schema)).toThrowError(
     'Directive "ttl" must be used only on Int type fields.'
+  );
+});
+
+test("Only one @ttl directive per type is allowed", () => {
+  const schema = `
+      type ExpiringChatMessage @model {
+        id: ID!
+        message: String
+        expirationUnixTime: Int! @ttl
+        anotherExpirationUnixTime: Int! @ttl
+      }
+    `;
+  expect(() => transformer.transform(schema)).toThrowError(
+    'Directive "ttl" must be used only once in the same type.'
   );
 });
 

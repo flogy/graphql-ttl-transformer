@@ -26,5 +26,21 @@ export class TtlTransformer extends Transformer {
     if (getBaseType(definition.type) !== "Int") {
       throw new Error('Directive "ttl" must be used only on Int type fields.');
     }
+
+    let numberOfTtlDirectivesInsideParentType = 0;
+    if (parent.fields) {
+      parent.fields.forEach((field) => {
+        if (field.directives) {
+          numberOfTtlDirectivesInsideParentType += field.directives.filter(
+            (directive) => directive.name.value === "ttl"
+          ).length;
+        }
+      });
+    }
+    if (numberOfTtlDirectivesInsideParentType > 1) {
+      throw new Error(
+        'Directive "ttl" must be used only once in the same type.'
+      );
+    }
   };
 }
