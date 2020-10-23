@@ -44,6 +44,10 @@ Contributions are more than welcome! I love how AWS Amplify helps us developers 
 
 Please feel free to create, comment and of course solve some of the issues. To get started you can also go for the easier issues marked with the `good first issue` label if you like.
 
+### Development
+
+- It is important to always make sure the version of the installed `graphql` dependency matches the `graphql` version the `graphql-transformer-core` depends on.
+
 ## License
 
 The [MIT License](LICENSE)
