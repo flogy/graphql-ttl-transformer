@@ -1,4 +1,9 @@
-import { Transformer, gql, TransformerContext } from "graphql-transformer-core";
+import {
+  Transformer,
+  gql,
+  TransformerContext,
+  InvalidDirectiveError,
+} from "graphql-transformer-core";
 import {
   DirectiveNode,
   ObjectTypeDefinitionNode,
@@ -24,7 +29,9 @@ export class TtlTransformer extends Transformer {
     acc: TransformerContext
   ) => {
     if (getBaseType(definition.type) !== "Int") {
-      throw new Error('Directive "ttl" must be used only on Int type fields.');
+      throw new InvalidDirectiveError(
+        'Directive "ttl" must be used only on Int type fields.'
+      );
     }
 
     let numberOfTtlDirectivesInsideParentType = 0;
@@ -38,7 +45,7 @@ export class TtlTransformer extends Transformer {
       });
     }
     if (numberOfTtlDirectivesInsideParentType > 1) {
-      throw new Error(
+      throw new InvalidDirectiveError(
         'Directive "ttl" must be used only once in the same type.'
       );
     }
