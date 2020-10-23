@@ -5,6 +5,7 @@ import {
   InterfaceTypeDefinitionNode,
   FieldDefinitionNode,
 } from "graphql";
+import { getBaseType } from "graphql-transformer-common";
 
 export class TtlTransformer extends Transformer {
   constructor() {
@@ -21,5 +22,9 @@ export class TtlTransformer extends Transformer {
     definition: FieldDefinitionNode,
     directive: DirectiveNode,
     acc: TransformerContext
-  ) => {};
+  ) => {
+    if (getBaseType(definition.type) !== "Int") {
+      throw new Error('Directive "ttl" must be used only on Int type fields.');
+    }
+  };
 }
