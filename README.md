@@ -2,8 +2,6 @@
 
 # graphql-ttl-transformer
 
-⚠️ This project is under heavy development, so breaking changes may occur on our road to a stable v1.0.0. Any bug reports and [contributions](#contribute-) will be highly appreciated.
-
 [![Pull requests are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen)](#contribute-)
 [![npm](https://img.shields.io/npm/v/graphql-ttl-transformer)](https://www.npmjs.com/package/graphql-ttl-transformer)
 [![GitHub license](https://img.shields.io/github/license/flogy/graphql-ttl-transformer)](https://github.com/flogy/graphql-ttl-transformer/blob/master/LICENSE)
@@ -16,7 +14,7 @@
 
 ### Setup custom transformer
 
-Edit `amplify/backend/api/<YOUR_API>/transform.conf.json` and append `"./graphql-ttl-transformer"` to the `transformers` field.
+Edit `amplify/backend/api/<YOUR_API>/transform.conf.json` and append `"graphql-ttl-transformer"` to the `transformers` field.
 
 ```json
 "transformers": [
@@ -55,3 +53,5 @@ The [MIT License](LICENSE)
 ## Credits
 
 The _graphql-ttl-transformer_ library is maintained and sponsored by the Swiss web and mobile app development company [Florian Gyger Software](https://floriangyger.ch).
+
+If this library saved you some time and money please consider [sponsoring me](https://github.com/sponsors/flogy), so I can build more libraries for free and actively maintain them for you. Thank you 🙏
