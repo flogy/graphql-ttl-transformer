@@ -19,7 +19,7 @@ test("@ttl directive can be used on fields", () => {
     type ExpiringChatMessage @model {
       id: ID!
       message: String
-      expirationUnixTime: Int! @ttl
+      expirationUnixTime: AWSTimestamp! @ttl
     }
   `;
   expect(() => transformer.transform(schema)).not.toThrow();
@@ -30,7 +30,7 @@ test("@ttl directive can not be used on types", () => {
     type ExpiringChatMessage @model @ttl {
       id: ID!
       message: String
-      expirationUnixTime: Int!
+      expirationUnixTime: AWSTimestamp!
     }
   `;
   expect(() => transformer.transform(schema)).toThrowError(
@@ -38,7 +38,7 @@ test("@ttl directive can not be used on types", () => {
   );
 });
 
-test("@ttl directive can only be used on fields of type Int", () => {
+test("@ttl directive can not be used on fields other than Int and AWSTimestamp", () => {
   const schema = `
     type ExpiringChatMessage @model {
       id: ID!
@@ -47,8 +47,30 @@ test("@ttl directive can only be used on fields of type Int", () => {
     }
   `;
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" must be used only on Int type fields.'
+    'Directive "ttl" must be used only on AWSTimestamp or Int type fields.'
   );
+});
+
+test("@ttl directive can be used on fields with AWSTimestamp type", () => {
+  const schema = `
+    type ExpiringChatMessage @model {
+      id: ID!
+      message: String
+      expirationUnixTime: AWSTimestamp! @ttl
+    }
+  `;
+  expect(() => transformer.transform(schema)).not.toThrow();
+});
+
+test("@ttl directive can be used on fields with Int type", () => {
+  const schema = `
+    type ExpiringChatMessage @model {
+      id: ID!
+      message: String
+      expirationUnixTime: Int! @ttl
+    }
+  `;
+  expect(() => transformer.transform(schema)).not.toThrow();
 });
 
 test("Only one @ttl directive per type is allowed", () => {
@@ -56,8 +78,8 @@ test("Only one @ttl directive per type is allowed", () => {
       type ExpiringChatMessage @model {
         id: ID!
         message: String
-        expirationUnixTime: Int! @ttl
-        anotherExpirationUnixTime: Int! @ttl
+        expirationUnixTime: AWSTimestamp! @ttl
+        anotherExpirationUnixTime: AWSTimestamp! @ttl
       }
     `;
   expect(() => transformer.transform(schema)).toThrowError(
@@ -90,7 +112,7 @@ test("Generated CloudFormation document contains the TimeToLiveSpecification pro
     type ExpiringChatMessage @model {
       id: ID!
       message: String
-      expirationUnixTime: Int! @ttl
+      expirationUnixTime: AWSTimestamp! @ttl
     }
   `;
   const properties = getPropertiesOfSchemaTable(schema, "ExpiringChatMessage");
@@ -103,7 +125,7 @@ test("TimeToLiveSpecification property is pointing to the field where the @ttl d
     type ExpiringChatMessage @model {
       id: ID!
       message: String
-      expirationUnixTime: Int! @ttl
+      expirationUnixTime: AWSTimestamp! @ttl
     }
   `;
   const properties = getPropertiesOfSchemaTable(schema, "ExpiringChatMessage");

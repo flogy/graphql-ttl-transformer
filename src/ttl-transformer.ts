@@ -28,9 +28,9 @@ export class TtlTransformer extends Transformer {
     directive: DirectiveNode,
     acc: TransformerContext
   ) => {
-    if (getBaseType(definition.type) !== "Int") {
+    if (!["AWSTimestamp", "Int"].includes(getBaseType(definition.type))) {
       throw new InvalidDirectiveError(
-        'Directive "ttl" must be used only on Int type fields.'
+        'Directive "ttl" must be used only on AWSTimestamp or Int type fields.'
       );
     }
 

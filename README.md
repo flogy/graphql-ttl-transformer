@@ -30,11 +30,11 @@ Append `@ttl` to target fields.
 type ExpiringChatMessage @model {
   id: ID!
   message: String
-  expirationUnixTime: Int! @ttl
+  expirationUnixTime: AWSTimestamp! @ttl
 }
 ```
 
-It is important that the field you use the directive is of type `Int`, as the expiration timestamp must be in [Unix time](https://en.wikipedia.org/wiki/Unix_time) format.
+It is important that the field you use the directive is of type `AWSTimestamp` (recommended) or `Int`, as the expiration timestamp must be in [Unix time](https://en.wikipedia.org/wiki/Unix_time) format.
 
 ## Contribute 🦸
 
