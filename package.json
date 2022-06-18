@@ -1,8 +1,8 @@
 {
-  "name": "graphql-ttl-transformer",
+  "name": "graphql-ttl-transformer-v2-beta",
   "version": "2.0.0",
   "description": "Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API!",
-  "author": "Florian Gyger <info@floriangyger.ch>",
+  "author": "Hisham AL-Shurafa <hisham@pixineers.com>",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
@@ -19,12 +19,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flogy/graphql-ttl-transformer.git"
+    "url": "git+https://github.com/hisham/graphql-ttl-transformer.git"
   },
   "bugs": {
-    "url": "https://github.com/flogy/graphql-ttl-transformer/issues"
+    "url": "https://github.com/hisham/graphql-ttl-transformer/issues"
   },
-  "homepage": "https://github.com/flogy/graphql-ttl-transformer#readme",
+  "homepage": "https://github.com/hisham/graphql-ttl-transformer#readme",
   "keywords": [
     "aws",
     "amplify",
