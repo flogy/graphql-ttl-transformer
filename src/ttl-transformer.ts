@@ -15,6 +15,7 @@ import {
 import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
 import { Table, CfnTable } from "@aws-cdk/aws-dynamodb";
 import { DynamoDbDataSource } from "@aws-cdk/aws-appsync";
+import { IConstruct } from "@aws-cdk/core";
 
 export class TtlTransformer extends TransformerPluginBase {
   private readonly ttlFields: Map<
@@ -60,7 +61,7 @@ export class TtlTransformer extends TransformerPluginBase {
 
   public generateResolvers = (ctx: TransformerContextProvider): void => {
     this.ttlFields.forEach((fieldName, parent) => {
-      const ddbTable = this.getTable(ctx, parent as ObjectTypeDefinitionNode);
+      const ddbTable = this.getTable(ctx, parent as ObjectTypeDefinitionNode) as Table;
       (ddbTable["table"] as CfnTable).timeToLiveSpecification = {
         attributeName: fieldName,
         enabled: true,
@@ -71,7 +72,7 @@ export class TtlTransformer extends TransformerPluginBase {
   private getTable = (
     context: TransformerContextProvider,
     definition: ObjectTypeDefinitionNode
-  ): any => {
+  ): IConstruct => {
     const ddbDataSource = context.dataSources.get(
       definition
     ) as DynamoDbDataSource;
