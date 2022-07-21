@@ -8,10 +8,7 @@
     "start": "tsc -w",
     "build": "tsc",
     "test": "jest",
-    "prepublishOnly": "npm run build",
-    "preversion": "npm run test",
-    "version": "auto-changelog --breaking-pattern \"BREAKING CHANGE:\" -p && git add CHANGELOG.md",
-    "postversion": "git push origin main --tags && npm publish",
+    "prepublishOnly": "npm run test && npm run build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "main": "./dist/index.js",
@@ -38,7 +35,6 @@
     "dynamodb"
   ],
   "devDependencies": {
-    "auto-changelog": "^2.2.1",
     "graphql-appsync-transformer": "^1.0.35",
     "graphql-dynamodb-transformer": "^6.19.16",
     "jest": "^26.6.0",
