@@ -10,6 +10,10 @@
 
 `npm install --save graphql-ttl-transformer`
 
+For projects using the old GraphQL Transformer v1 run:
+
+`npm install --save graphql-ttl-transformer@1`
+
 ## How to use
 
 ### Setup custom transformer

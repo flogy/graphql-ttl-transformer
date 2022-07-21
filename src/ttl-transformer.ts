@@ -1,9 +1,11 @@
 import {
-  Transformer,
-  gql,
-  TransformerContext,
   InvalidDirectiveError,
-} from "graphql-transformer-core";
+  TransformerPluginBase,
+} from "@aws-amplify/graphql-transformer-core";
+import {
+  TransformerContextProvider,
+  TransformerSchemaVisitStepContextProvider,
+} from "@aws-amplify/graphql-transformer-interfaces";
 import {
   DirectiveNode,
   ObjectTypeDefinitionNode,
@@ -11,22 +13,25 @@ import {
   FieldDefinitionNode,
 } from "graphql";
 import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
+import { Table, CfnTable } from "@aws-cdk/aws-dynamodb";
+import { DynamoDbDataSource } from "@aws-cdk/aws-appsync";
+import { IConstruct } from "@aws-cdk/core";
 
-export class TtlTransformer extends Transformer {
+export class TtlTransformer extends TransformerPluginBase {
+  private readonly ttlFields: Map<
+    ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode,
+    string
+  > = new Map();
+
   constructor() {
-    super(
-      "TtlTransformer",
-      gql`
-        directive @ttl on FIELD_DEFINITION
-      `
-    );
+    super("TtlTransformer", "directive @ttl on FIELD_DEFINITION");
   }
 
   public field = (
     parent: ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode,
     definition: FieldDefinitionNode,
     directive: DirectiveNode,
-    acc: TransformerContext
+    acc: TransformerSchemaVisitStepContextProvider
   ) => {
     if (!["AWSTimestamp", "Int"].includes(getBaseType(definition.type))) {
       throw new InvalidDirectiveError(
@@ -50,15 +55,31 @@ export class TtlTransformer extends Transformer {
       );
     }
 
-    const tableName = ModelResourceIDs.ModelTableResourceID(parent.name.value);
-    const table = acc.getResource(tableName);
     const fieldName = definition.name.value;
-    table.Properties = {
-      ...table.Properties,
-      TimeToLiveSpecification: {
-        AttributeName: fieldName,
-        Enabled: true,
-      },
-    };
+    this.ttlFields.set(parent, fieldName);
+  };
+
+  public generateResolvers = (ctx: TransformerContextProvider): void => {
+    this.ttlFields.forEach((fieldName, parent) => {
+      const ddbTable = this.getTable(ctx, parent as ObjectTypeDefinitionNode) as Table;
+      (ddbTable["table"] as CfnTable).timeToLiveSpecification = {
+        attributeName: fieldName,
+        enabled: true,
+      };
+    });
+  };
+
+  private getTable = (
+    context: TransformerContextProvider,
+    definition: ObjectTypeDefinitionNode
+  ): IConstruct => {
+    const ddbDataSource = context.dataSources.get(
+      definition
+    ) as DynamoDbDataSource;
+    const tableName = ModelResourceIDs.ModelTableResourceID(
+      definition.name.value
+    );
+    const table = ddbDataSource.ds.stack.node.findChild(tableName);
+    return table;
   };
 }
