@@ -1,16 +1,17 @@
 {
   "name": "graphql-ttl-transformer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API!",
   "author": "Florian Gyger <info@floriangyger.ch>",
   "license": "MIT",
   "scripts": {
+    "start": "tsc -w",
     "build": "tsc",
     "test": "jest",
     "prepublishOnly": "npm run build",
     "preversion": "npm run test",
     "version": "auto-changelog --breaking-pattern \"BREAKING CHANGE:\" -p && git add CHANGELOG.md",
-    "postversion": "git push origin master --tags && npm publish",
+    "postversion": "git push origin main --tags && npm publish",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "main": "./dist/index.js",
