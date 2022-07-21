@@ -5,6 +5,7 @@
   "author": "Florian Gyger <info@floriangyger.ch>",
   "license": "MIT",
   "scripts": {
+    "start": "tsc -w",
     "build": "tsc",
     "test": "jest",
     "prepublishOnly": "npm run build",
