@@ -50,6 +50,12 @@ Please feel free to create, comment and of course solve some of the issues. To g
 
 **Hint:** It is important to always make sure the version of the installed `graphql` dependency matches the `graphql` version the `graphql-transformer-core` depends on.
 
+### Publish new NPM package version
+
+1. Make sure version number is updated.
+2. Run `npm publish`.
+3. Create new release in GitHub including a tag.
+
 ## License
 
 The [MIT License](LICENSE)
