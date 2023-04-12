@@ -1,8 +1,13 @@
-module.exports = {
+/** @type {import('jest').Config} */
+const config = {
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  testURL: "http://localhost",
-  testRegex: "(src/__tests__/.*.test.*)$",
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-};
+  testEnvironmentOptions: {
+    url: 'http://localhost',
+  },
+  testRegex: '(src/__tests__/.*.test.*)$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+}
+
+module.exports = config

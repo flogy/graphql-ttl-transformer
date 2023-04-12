@@ -3,19 +3,19 @@ import {
   TransformerPluginBase,
 } from "@aws-amplify/graphql-transformer-core";
 import {
-  TransformerContextProvider,
-  TransformerSchemaVisitStepContextProvider,
-} from "@aws-amplify/graphql-transformer-interfaces";
-import {
   DirectiveNode,
   ObjectTypeDefinitionNode,
   InterfaceTypeDefinitionNode,
   FieldDefinitionNode,
 } from "graphql";
 import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
-import { Table, CfnTable } from "@aws-cdk/aws-dynamodb";
-import { DynamoDbDataSource } from "@aws-cdk/aws-appsync";
-import { IConstruct } from "@aws-cdk/core";
+import { Table, CfnTable } from "aws-cdk-lib/aws-dynamodb";
+import { DynamoDbDataSource } from "aws-cdk-lib/aws-appsync";
+import type {
+  TransformerContextProvider,
+  TransformerSchemaVisitStepContextProvider,
+} from "@aws-amplify/graphql-transformer-interfaces";
+import type { IConstruct } from "constructs";
 
 export class TtlTransformer extends TransformerPluginBase {
   private readonly ttlFields: Map<
