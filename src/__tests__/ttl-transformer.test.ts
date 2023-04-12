@@ -29,7 +29,7 @@ test("@ttl directive can not be used on types", () => {
     transformers: [new ModelTransformer(), new TtlTransformer()],
   });
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" may not be used on OBJECT.'
+    'Directive "@ttl" may not be used on OBJECT.'
   );
 });
 
