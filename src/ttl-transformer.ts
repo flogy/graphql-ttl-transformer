@@ -13,9 +13,9 @@ import {
   FieldDefinitionNode,
 } from "graphql";
 import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
-import { Table, CfnTable } from "@aws-cdk/aws-dynamodb";
-import { DynamoDbDataSource } from "@aws-cdk/aws-appsync";
-import { IConstruct } from "@aws-cdk/core";
+import { Table, CfnTable } from 'aws-cdk-lib/aws-dynamodb';
+import { DynamoDbDataSource } from 'aws-cdk-lib/aws-appsync'
+import { IConstruct } from 'constructs';
 
 export class TtlTransformer extends TransformerPluginBase {
   private readonly ttlFields: Map<

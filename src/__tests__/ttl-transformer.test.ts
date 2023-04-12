@@ -1,18 +1,7 @@
-import { GraphQLTransform } from "graphql-transformer-core";
-import { DynamoDBModelTransformer } from "graphql-dynamodb-transformer";
+import { GraphQLTransform } from "@aws-amplify/graphql-transformer-core";
+import { ModelTransformer } from "@aws-amplify/graphql-model-transformer";
 import { ModelResourceIDs } from "graphql-transformer-common";
 import TtlTransformer from "../index";
-
-// @ts-ignore
-import { AppSyncTransformer } from "graphql-appsync-transformer";
-
-const transformer = new GraphQLTransform({
-  transformers: [
-    new AppSyncTransformer(),
-    new DynamoDBModelTransformer(),
-    new TtlTransformer(),
-  ],
-});
 
 test("@ttl directive can be used on fields", () => {
   const schema = `
@@ -22,6 +11,9 @@ test("@ttl directive can be used on fields", () => {
       expirationUnixTime: AWSTimestamp! @ttl
     }
   `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).not.toThrow();
 });
 
@@ -33,8 +25,11 @@ test("@ttl directive can not be used on types", () => {
       expirationUnixTime: AWSTimestamp!
     }
   `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" may not be used on OBJECT.'
+    'Directive "@ttl" may not be used on OBJECT.'
   );
 });
 
@@ -46,6 +41,9 @@ test("@ttl directive can not be used on fields other than Int and AWSTimestamp",
       expirationUnixTime: String! @ttl
     }
   `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).toThrowError(
     'Directive "ttl" must be used only on AWSTimestamp or Int type fields.'
   );
@@ -59,6 +57,9 @@ test("@ttl directive can be used on fields with AWSTimestamp type", () => {
       expirationUnixTime: AWSTimestamp! @ttl
     }
   `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).not.toThrow();
 });
 
@@ -70,6 +71,9 @@ test("@ttl directive can be used on fields with Int type", () => {
       expirationUnixTime: Int! @ttl
     }
   `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).not.toThrow();
 });
 
@@ -82,6 +86,9 @@ test("Only one @ttl directive per type is allowed", () => {
         anotherExpirationUnixTime: AWSTimestamp! @ttl
       }
     `;
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   expect(() => transformer.transform(schema)).toThrowError(
     'Directive "ttl" must be used only once in the same type.'
   );
@@ -89,6 +96,9 @@ test("Only one @ttl directive per type is allowed", () => {
 
 const getPropertiesOfSchemaTable = (schema: string, schemaTypeName: string) => {
   const tableName = ModelResourceIDs.ModelTableResourceID(schemaTypeName);
+  const transformer = new GraphQLTransform({
+    transformers: [new ModelTransformer(), new TtlTransformer()],
+  });
   const resources = transformer.transform(schema).stacks[schemaTypeName]
     .Resources;
   if (!resources) {
