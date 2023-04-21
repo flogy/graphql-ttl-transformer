@@ -29,7 +29,7 @@ test("@ttl directive can not be used on types", () => {
     transformers: [new ModelTransformer(), new TtlTransformer()],
   });
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" may not be used on OBJECT.'
+    'Directive "@ttl" may not be used on OBJECT.'
   );
 });
 
@@ -45,7 +45,7 @@ test("@ttl directive can not be used on fields other than Int and AWSTimestamp",
     transformers: [new ModelTransformer(), new TtlTransformer()],
   });
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" must be used only on AWSTimestamp or Int type fields.'
+    'Directive "@ttl" must be used only on AWSTimestamp or Int type fields.'
   );
 });
 
@@ -90,7 +90,7 @@ test("Only one @ttl directive per type is allowed", () => {
     transformers: [new ModelTransformer(), new TtlTransformer()],
   });
   expect(() => transformer.transform(schema)).toThrowError(
-    'Directive "ttl" must be used only once in the same type.'
+    'Directive "@ttl" must be used only once in the same type.'
   );
 });
 
@@ -99,8 +99,8 @@ const getPropertiesOfSchemaTable = (schema: string, schemaTypeName: string) => {
   const transformer = new GraphQLTransform({
     transformers: [new ModelTransformer(), new TtlTransformer()],
   });
-  const resources = transformer.transform(schema).stacks[schemaTypeName]
-    .Resources;
+  const resources =
+    transformer.transform(schema).stacks[schemaTypeName].Resources;
   if (!resources) {
     throw new Error("Expected to have resources in the stack");
   }
