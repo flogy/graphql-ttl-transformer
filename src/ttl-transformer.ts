@@ -61,7 +61,10 @@ export class TtlTransformer extends TransformerPluginBase {
 
   public generateResolvers = (ctx: TransformerContextProvider): void => {
     this.ttlFields.forEach((fieldName, parent) => {
-      const ddbTable = this.getTable(ctx, parent as ObjectTypeDefinitionNode) as Table;
+      const ddbTable = this.getTable(
+        ctx,
+        parent as ObjectTypeDefinitionNode
+      ) as Table;
       (ddbTable["table"] as CfnTable).timeToLiveSpecification = {
         attributeName: fieldName,
         enabled: true,
