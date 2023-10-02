@@ -13,9 +13,9 @@ import {
   FieldDefinitionNode,
 } from "graphql";
 import { getBaseType, ModelResourceIDs } from "graphql-transformer-common";
-import { Table, CfnTable } from 'aws-cdk-lib/aws-dynamodb';
-import { DynamoDbDataSource } from 'aws-cdk-lib/aws-appsync'
-import { IConstruct } from 'constructs';
+import { Table, CfnTable } from "aws-cdk-lib/aws-dynamodb";
+import { DynamoDbDataSource } from "aws-cdk-lib/aws-appsync";
+import { IConstruct } from "constructs";
 
 export class TtlTransformer extends TransformerPluginBase {
   private readonly ttlFields: Map<
@@ -35,7 +35,7 @@ export class TtlTransformer extends TransformerPluginBase {
   ) => {
     if (!["AWSTimestamp", "Int"].includes(getBaseType(definition.type))) {
       throw new InvalidDirectiveError(
-        'Directive "ttl" must be used only on AWSTimestamp or Int type fields.'
+        'Directive "@ttl" must be used only on AWSTimestamp or Int type fields.'
       );
     }
 
@@ -51,7 +51,7 @@ export class TtlTransformer extends TransformerPluginBase {
     }
     if (numberOfTtlDirectivesInsideParentType > 1) {
       throw new InvalidDirectiveError(
-        'Directive "ttl" must be used only once in the same type.'
+        'Directive "@ttl" must be used only once in the same type.'
       );
     }
 
@@ -61,7 +61,10 @@ export class TtlTransformer extends TransformerPluginBase {
 
   public generateResolvers = (ctx: TransformerContextProvider): void => {
     this.ttlFields.forEach((fieldName, parent) => {
-      const ddbTable = this.getTable(ctx, parent as ObjectTypeDefinitionNode) as Table;
+      const ddbTable = this.getTable(
+        ctx,
+        parent as ObjectTypeDefinitionNode
+      ) as Table;
       (ddbTable["table"] as CfnTable).timeToLiveSpecification = {
         attributeName: fieldName,
         enabled: true,

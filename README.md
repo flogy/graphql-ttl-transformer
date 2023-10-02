@@ -4,7 +4,7 @@
 
 [![Pull requests are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen)](#contribute-)
 [![npm](https://img.shields.io/npm/v/graphql-ttl-transformer)](https://www.npmjs.com/package/graphql-ttl-transformer)
-[![GitHub license](https://img.shields.io/github/license/flogy/graphql-ttl-transformer)](https://github.com/flogy/graphql-ttl-transformer/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/flogy/graphql-ttl-transformer)](https://github.com/flogy/graphql-ttl-transformer/blob/main/LICENSE)
 
 ## Installation
 
