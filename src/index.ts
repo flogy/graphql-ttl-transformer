@@ -1,3 +1,3 @@
-import { TtlTransformer } from "./ttl-transformer";
+import { BinaryTransformer } from "./binary-transformer";
 
-export default TtlTransformer;
+export default BinaryTransformer;
