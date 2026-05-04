@@ -66,6 +66,6 @@ The [MIT License](LICENSE)
 
 ## Credits
 
-The _graphql-ttl-transformer_ library is maintained and sponsored by the Swiss web and mobile app development company [Florian Gyger Software](https://floriangyger.ch).
+The _graphql-ttl-transformer_ library is maintained and sponsored by the Swiss web and mobile app development company [Florian Gyger Software GmbH](https://floriangyger.ch).
 
 If this library saved you some time and money please consider [sponsoring me](https://github.com/sponsors/flogy), so I can build more libraries for free and actively maintain them for you. Thank you 🙏
